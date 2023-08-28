@@ -6,6 +6,7 @@ import {
   Login,
   Register,
   ErrorPage,
+  Admin,
 } from "./pages";
 
 const router = createBrowserRouter([
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardLayout />,
+        children: [{ index: true, element: <Admin /> }],
       },
     ],
   },
