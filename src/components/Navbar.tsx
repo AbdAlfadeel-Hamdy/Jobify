@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { FaAlignLeft } from "react-icons/fa";
 import Logo from "./Logo";
 import { useDashboardContext } from "../context/dashboard";
+import LogoutContainer from "./LogoutContainer";
+import ThemeToggle from "./ThemeToggle";
 
 const Navbar: React.FC = () => {
   const { toggleSidebar } = useDashboardContext();
@@ -16,8 +18,8 @@ const Navbar: React.FC = () => {
           <h4 className="logo-text">dashboard</h4>
         </div>
         <div className="btn-container">
-          <button>toggle</button>
-          <button>logout</button>
+          <ThemeToggle />
+          <LogoutContainer />
         </div>
       </div>
     </Wrapper>

@@ -1,9 +1,25 @@
-import styled from "styled-components";
+// import styled from "styled-components";
+import Wrapper from "../assets/wrappers/BigSidebar.ts";
+import { useDashboardContext } from "../context/dashboard";
+import Logo from "./Logo";
+import NavLinks from "./NavLinks.tsx";
 
 const BigSidebar: React.FC = () => {
-  return <Wrapper>BigSidebar</Wrapper>;
+  const { showSidebar } = useDashboardContext();
+  return (
+    <Wrapper>
+      <div
+        className={`sidebar-container ${!showSidebar ? "show-sidebar" : ""}`}
+      >
+        <div className="content">
+          <header>
+            <Logo />
+          </header>
+          <NavLinks isBigSidebar />
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
-
-const Wrapper = styled.div``;
 
 export default BigSidebar;

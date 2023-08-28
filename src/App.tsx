@@ -7,7 +7,28 @@ import {
   Register,
   ErrorPage,
   Admin,
+  AddJob,
+  Stats,
+  AllJobs,
+  Profile,
 } from "./pages";
+
+const checkDefaultTheme = () => {
+  const darkThemeString = localStorage.getItem("darkTheme");
+  let darkTheme;
+  try {
+    darkTheme = darkThemeString ? JSON.parse(darkThemeString) : false;
+  } catch (error) {
+    console.log(error);
+    darkTheme = false;
+  }
+  document.body.classList.toggle("dark-theme", darkTheme);
+
+  return darkTheme;
+};
+
+// eslint-disable-next-line
+export const isDarkThemeEnabled = checkDefaultTheme();
 
 const router = createBrowserRouter([
   {
@@ -30,7 +51,13 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardLayout />,
-        children: [{ index: true, element: <Admin /> }],
+        children: [
+          { index: true, element: <AddJob /> },
+          { path: "stats", element: <Stats /> },
+          { path: "all-jobs", element: <AllJobs /> },
+          { path: "profile", element: <Profile /> },
+          { path: "admin", element: <Admin /> },
+        ],
       },
     ],
   },

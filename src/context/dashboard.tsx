@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { isDarkThemeEnabled } from "../App";
 
 interface DashboardContextProps {
   user: { name: string };
@@ -22,19 +23,20 @@ export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const user = { name: "Adham" };
+  const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  const logoutUser = () => {
-    console.log("LogoutUser");
-  };
+  const logoutUser = () => {};
 
   const toggleSidebar = () => {
     setShowSidebar((prevState) => !prevState);
   };
 
   const toggleDarkTheme = () => {
-    setIsDarkTheme((prevState) => !prevState);
+    const newDarkTheme = !isDarkTheme;
+    setIsDarkTheme(newDarkTheme);
+    document.body.classList.toggle("dark-theme", newDarkTheme);
+    localStorage.setItem("darkTheme", JSON.stringify(newDarkTheme));
   };
 
   return (

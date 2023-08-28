@@ -9,7 +9,7 @@ const DashboardLayout: React.FC = () => {
       <Wrapper>
         <main className="dashboard">
           <SmallSidebar />
-          {/* <BigSidebar /> */}
+          <BigSidebar />
           <div>
             <Navbar />
             <div className="dashboard-page">
