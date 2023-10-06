@@ -1,11 +1,29 @@
-import { Link } from "react-router-dom";
+import { Form, Link, redirect, useNavigation } from "react-router-dom";
 import styled from "styled-components";
+import { toast } from "react-toastify";
+import customFetch from "../utils/customFetch";
 import { Logo, FormRow } from "../components";
 
+// eslint-disable-next-line
+export const action = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  try {
+    await customFetch.post("/auth/register", data);
+    toast.success("Registration Successful");
+    return redirect("/login");
+  } catch (error) {
+    toast.error((error as any)?.response?.data?.message);
+    return error;
+  }
+};
+
 const Register: React.FC = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
-      <form className="form">
+      <Form method="post" className="form">
         <Logo />
         <h4>Register</h4>
         <FormRow type="text" name="name" defaultValue="gonzalo" />
@@ -18,8 +36,8 @@ const Register: React.FC = () => {
         <FormRow type="text" name="location" defaultValue="egypt" />
         <FormRow type="email" name="email" defaultValue="test@test.com" />
         <FormRow type="password" name="password" defaultValue="test1234" />
-        <button type="submit" className="btn btn-block">
-          submit
+        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
+          {isSubmitting ? "submitting..." : "submit"}
         </button>
         <p>
           Already a member?
@@ -27,7 +45,7 @@ const Register: React.FC = () => {
             Login
           </Link>
         </p>
-      </form>
+      </Form>
     </Wrapper>
   );
 };
