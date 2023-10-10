@@ -1,8 +1,20 @@
 import React, { useContext, useState } from "react";
+import { redirect, useLoaderData, useNavigate } from "react-router";
+import { toast } from "react-toastify";
 import { isDarkThemeEnabled } from "../App";
+import customFetch from "../utils/customFetch";
+
+interface User {
+  _id: string;
+  name: string;
+  lastName: string;
+  email: string;
+  location: string;
+  role: "user" | "admin";
+}
 
 interface DashboardContextProps {
-  user: { name: string };
+  user: User;
   showSidebar: boolean;
   isDarkTheme: boolean;
   logoutUser: () => void;
@@ -11,7 +23,14 @@ interface DashboardContextProps {
 }
 
 const DashboardContext = React.createContext<DashboardContextProps>({
-  user: { name: "" },
+  user: {
+    _id: "",
+    name: "",
+    lastName: "",
+    email: "",
+    location: "",
+    role: "user",
+  },
   showSidebar: false,
   isDarkTheme: false,
   logoutUser: () => {},
@@ -19,14 +38,30 @@ const DashboardContext = React.createContext<DashboardContextProps>({
   toggleDarkTheme: () => {},
 });
 
+// eslint-disable-next-line
+export const loader = async () => {
+  try {
+    const { data } = await customFetch("/users/current-user");
+    return data;
+  } catch (error) {
+    return redirect("/");
+  }
+};
+
 export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const user = { name: "Adham" };
+  const navigate = useNavigate();
+  const data = useLoaderData();
+  const user = (data as any).user as User;
   const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
   const [showSidebar, setShowSidebar] = useState(false);
 
-  const logoutUser = () => {};
+  const logoutUser = async () => {
+    navigate("/", { replace: true });
+    await customFetch("/auth/logout");
+    toast.success("Logging out...");
+  };
 
   const toggleSidebar = () => {
     setShowSidebar((prevState) => !prevState);

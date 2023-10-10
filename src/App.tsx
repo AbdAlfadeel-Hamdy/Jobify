@@ -15,6 +15,7 @@ import {
 
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
+import { loader as dashboardLoader } from "./context/dashboard";
 
 const checkDefaultTheme = () => {
   const darkThemeString = localStorage.getItem("darkTheme");
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         element: <DashboardLayout />,
+        loader: dashboardLoader,
         children: [
           { index: true, element: <AddJob /> },
           { path: "stats", element: <Stats /> },
