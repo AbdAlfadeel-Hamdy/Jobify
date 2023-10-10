@@ -1,17 +1,36 @@
-import { Link } from "react-router-dom";
+import { Form, Link, redirect, useNavigation } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import { FormRow, Logo } from "../components";
+import customFetch from "../utils/customFetch";
+
+// eslint-disable-next-line
+export const action = async ({ request }: { request: Request }) => {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  try {
+    await customFetch.post("/auth/login", data);
+    toast.success("Login Successful");
+    return redirect("/dashboard");
+  } catch (error) {
+    toast.error((error as any).response.data.message);
+    return error;
+  }
+};
 
 const Login: React.FC = () => {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
-      <form className="form">
+      <Form method="POST" className="form">
         <Logo />
         <h4>login</h4>
         <FormRow type="email" name="email" defaultValue="admin@admin.com" />
         <FormRow type="password" name="password" defaultValue="test1234" />
-        <button type="submit" className="btn btn-block">
-          submit
+        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
+          {isSubmitting ? "submitting..." : "submit"}
         </button>
         <button type="button" className="btn btn-block">
           explore the app
@@ -22,7 +41,7 @@ const Login: React.FC = () => {
             Register
           </Link>
         </p>
-      </form>
+      </Form>
     </Wrapper>
   );
 };

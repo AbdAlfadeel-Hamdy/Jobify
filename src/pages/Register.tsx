@@ -10,7 +10,7 @@ export const action = async ({ request }: { request: Request }) => {
   const data = Object.fromEntries(formData);
   try {
     await customFetch.post("/auth/register", data);
-    toast.success("Registration Successful");
+    toast.success("Registration successful");
     return redirect("/login");
   } catch (error) {
     toast.error((error as any)?.response?.data?.message);
@@ -23,7 +23,7 @@ const Register: React.FC = () => {
   const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
-      <Form method="post" className="form">
+      <Form method="POST" className="form">
         <Logo />
         <h4>Register</h4>
         <FormRow type="text" name="name" defaultValue="gonzalo" />
