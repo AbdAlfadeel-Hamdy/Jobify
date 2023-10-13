@@ -1,15 +1,15 @@
 interface FormRowProps {
-  label?: string;
   name: string;
   type: "text" | "email" | "number" | "password";
+  label?: string;
   required?: boolean;
   defaultValue?: string | number;
 }
 
 const FormRow: React.FC<FormRowProps> = ({
-  label,
-  type,
   name,
+  type,
+  label,
   required = true,
   defaultValue = "",
 }) => {
