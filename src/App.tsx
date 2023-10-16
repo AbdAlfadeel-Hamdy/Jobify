@@ -11,13 +11,16 @@ import {
   Stats,
   AllJobs,
   Profile,
+  EditJob,
 } from "./pages";
 
+import { loader as dashboardLoader } from "./context/dashboard";
+import { loader as allJobsLoader } from "./context/allJobs";
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
 import { action as addJobAction } from "./pages/AddJob";
-import { loader as dashboardLoader } from "./context/dashboard";
-import { loader as allJobsLoader } from "./context/allJobs";
+import { action as editJobAction } from "./pages/EditJob";
+import { loader as editJobLoader } from "./pages/EditJob";
 
 const checkDefaultTheme = () => {
   const darkThemeString = localStorage.getItem("darkTheme");
@@ -33,7 +36,6 @@ const checkDefaultTheme = () => {
   return darkTheme;
 };
 
-// eslint-disable-next-line
 export const isDarkThemeEnabled = checkDefaultTheme();
 
 const router = createBrowserRouter([
@@ -66,6 +68,12 @@ const router = createBrowserRouter([
           { path: "all-jobs", element: <AllJobs />, loader: allJobsLoader },
           { path: "profile", element: <Profile /> },
           { path: "admin", element: <Admin /> },
+          {
+            path: "edit-job/:id",
+            element: <EditJob />,
+            action: editJobAction,
+            loader: editJobLoader,
+          },
         ],
       },
     ],

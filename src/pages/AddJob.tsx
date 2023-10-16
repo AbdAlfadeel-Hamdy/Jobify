@@ -1,4 +1,9 @@
-import { Form, redirect, useNavigation } from "react-router-dom";
+import {
+  ActionFunction,
+  Form,
+  redirect,
+  useNavigation,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDashboardContext } from "../context/dashboard";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
@@ -6,8 +11,7 @@ import { FormRow, FormRowSelect } from "../components";
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants";
 import customFetch from "../utils/customFetch";
 
-// eslint-disable-next-line
-export const action = async ({ request }: { request: Request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {
@@ -15,7 +19,7 @@ export const action = async ({ request }: { request: Request }) => {
     toast.success("Job added successfully");
     return redirect("all-jobs");
   } catch (error) {
-    toast.error((error as any).response.data.message);
+    toast.error((error as any)?.response?.data?.message);
     return error;
   }
 };

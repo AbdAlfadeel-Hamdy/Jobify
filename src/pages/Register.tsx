@@ -1,11 +1,16 @@
-import { Form, Link, redirect, useNavigation } from "react-router-dom";
+import {
+  ActionFunction,
+  Form,
+  Link,
+  redirect,
+  useNavigation,
+} from "react-router-dom";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
 import { Logo, FormRow } from "../components";
 
-// eslint-disable-next-line
-export const action = async ({ request }: { request: Request }) => {
+export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   try {

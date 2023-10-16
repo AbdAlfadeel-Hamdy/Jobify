@@ -1,5 +1,10 @@
 import React, { useContext, useState } from "react";
-import { redirect, useLoaderData, useNavigate } from "react-router";
+import {
+  LoaderFunction,
+  redirect,
+  useLoaderData,
+  useNavigate,
+} from "react-router";
 import { toast } from "react-toastify";
 import { isDarkThemeEnabled } from "../App";
 import customFetch from "../utils/customFetch";
@@ -38,8 +43,7 @@ const DashboardContext = React.createContext<DashboardContextProps>({
   toggleDarkTheme: () => {},
 });
 
-// eslint-disable-next-line
-export const loader = async () => {
+export const loader: LoaderFunction = async () => {
   try {
     const { data } = await customFetch("/users/current-user");
     return data;
@@ -89,5 +93,4 @@ export const DashboardContextProvider: React.FC<{
   );
 };
 
-// eslint-disable-next-line
 export const useDashboardContext = () => useContext(DashboardContext);

@@ -4,11 +4,11 @@ import { FaLocationArrow, FaCalendarAlt, FaBriefcase } from "react-icons/fa";
 import day from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 day.extend(advancedFormat);
-import { Job as JobType } from "../context/allJobs";
+import { Job as JobInterface } from "../utils/interfaces";
 import JobInfo from "./JobInfo";
 
-const Job: React.FC<JobType> = ({
-  // _id,
+const Job: React.FC<JobInterface> = ({
+  _id,
   company,
   position,
   jobStatus,
@@ -34,7 +34,7 @@ const Job: React.FC<JobType> = ({
           <div className={`status ${jobStatus}`}>{jobStatus}</div>
         </div>
         <footer className="actions">
-          <Link to={"/"} className="btn edit-btn">
+          <Link to={`../edit-job/${_id}`} className="btn edit-btn">
             Edit
           </Link>
           <Form>

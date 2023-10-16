@@ -1,10 +1,10 @@
 import { createContext, useContext } from "react";
-import { useLoaderData } from "react-router";
+import { LoaderFunction, useLoaderData } from "react-router";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
+import { Job } from "../utils/interfaces";
 
-// eslint-disable-next-line
-export const loader = async () => {
+export const loader: LoaderFunction = async () => {
   try {
     const { data } = await customFetch("/jobs");
     return { data };
@@ -13,16 +13,6 @@ export const loader = async () => {
     return error;
   }
 };
-
-export interface Job {
-  _id: string;
-  company: string;
-  position: string;
-  jobStatus: string;
-  jobType: string;
-  jobLocation: string;
-  createdAt: Date;
-}
 
 interface AllJobsContextProps {
   data: { jobs: Job[] };
@@ -44,7 +34,6 @@ const AllJobsContextProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-// eslint-disable-next-line
 export const useAllJobsContext = () => useContext(AllJobsContext);
 
 export default AllJobsContextProvider;
