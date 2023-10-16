@@ -52,8 +52,7 @@ export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
   const navigate = useNavigate();
-  const data = useLoaderData();
-  const user = (data as any).user as User;
+  const { user } = useLoaderData() as { user: User };
   const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
   const [showSidebar, setShowSidebar] = useState(false);
 
