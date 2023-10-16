@@ -14,8 +14,18 @@ export const loader = async () => {
   }
 };
 
+export interface Job {
+  _id: string;
+  company: string;
+  position: string;
+  jobStatus: string;
+  jobType: string;
+  jobLocation: string;
+  createdAt: Date;
+}
+
 interface AllJobsContextProps {
-  data: { jobs: any[] };
+  data: { jobs: Job[] };
 }
 
 const AllJobsContext = createContext<AllJobsContextProps>({
@@ -25,7 +35,7 @@ const AllJobsContext = createContext<AllJobsContextProps>({
 const AllJobsContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { data } = useLoaderData() as { data: { jobs: any[] } };
+  const { data } = useLoaderData() as { data: { jobs: Job[] } };
 
   return (
     <AllJobsContext.Provider value={{ data }}>

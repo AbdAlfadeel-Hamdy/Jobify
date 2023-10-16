@@ -43,7 +43,7 @@ const Wrapper = styled.section`
       column-gap: 1rem;
     }
 
-  @media (min-width: 1200px) {
+  @media (min-width: 1120px) {
     .form-center {
       grid-template-columns: 1fr 1fr 1fr;
     }
