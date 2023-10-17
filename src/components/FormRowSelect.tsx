@@ -23,7 +23,9 @@ const FormRowSelect: React.FC<FormRowSelectProps> = ({
         className="form-select"
       >
         {list.map((itemValue) => (
-          <option value={itemValue}>{itemValue}</option>
+          <option key={itemValue} value={itemValue}>
+            {itemValue}
+          </option>
         ))}
       </select>
     </div>

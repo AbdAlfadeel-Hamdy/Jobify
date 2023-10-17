@@ -7,22 +7,25 @@ interface NavLinksProps {
 }
 
 const NavLinks: React.FC<NavLinksProps> = ({ isBigSidebar }) => {
-  const { toggleSidebar } = useDashboardContext();
+  const { toggleSidebar, user } = useDashboardContext();
 
   return (
     <div className="nav-links">
-      {links.map(({ text, path, icon }) => (
-        <NavLink
-          to={path}
-          key={text}
-          className="nav-link"
-          onClick={isBigSidebar ? undefined : toggleSidebar}
-          end
-        >
-          <span className="icon">{icon}</span>
-          {text}
-        </NavLink>
-      ))}
+      {links.map(({ text, path, icon }) => {
+        if (path === "admin" && user.role !== "admin") return null;
+        return (
+          <NavLink
+            to={path}
+            key={text}
+            className="nav-link"
+            onClick={isBigSidebar ? undefined : toggleSidebar}
+            end
+          >
+            <span className="icon">{icon}</span>
+            {text}
+          </NavLink>
+        );
+      })}
     </div>
   );
 };
