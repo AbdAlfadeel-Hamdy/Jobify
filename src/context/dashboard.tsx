@@ -16,6 +16,7 @@ interface User {
   email: string;
   location: string;
   role: "user" | "admin";
+  avatar: string;
 }
 
 interface DashboardContextProps {
@@ -35,6 +36,7 @@ const DashboardContext = React.createContext<DashboardContextProps>({
     email: "",
     location: "",
     role: "user",
+    avatar: "",
   },
   showSidebar: false,
   isDarkTheme: false,
