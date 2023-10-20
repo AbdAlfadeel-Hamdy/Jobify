@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import { LoaderFunction, useLoaderData } from "react-router";
 import { toast } from "react-toastify";
 import customFetch from "../utils/customFetch";
+import { AxiosError } from "axios";
 import { Job } from "../utils/interfaces";
 
 export const loader: LoaderFunction = async () => {
@@ -9,7 +10,8 @@ export const loader: LoaderFunction = async () => {
     const { data } = await customFetch("/jobs");
     return { data };
   } catch (error) {
-    toast.error((error as any).response.data.message);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    else toast.error("Something went wrong");
     return error;
   }
 };

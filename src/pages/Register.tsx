@@ -8,6 +8,7 @@ import {
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import customFetch from "../utils/customFetch";
+import { AxiosError } from "axios";
 import { Logo, FormRow } from "../components";
 
 export const action: ActionFunction = async ({ request }) => {
@@ -18,7 +19,8 @@ export const action: ActionFunction = async ({ request }) => {
     toast.success("Registered successfully");
     return redirect("/login");
   } catch (error) {
-    toast.error((error as any)?.response?.data?.message);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    else toast.error("Something went wrong");
     return error;
   }
 };

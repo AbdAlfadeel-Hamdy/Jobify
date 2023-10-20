@@ -12,13 +12,15 @@ import { FormRow, FormRowSelect } from "../components";
 import { Job } from "../utils/interfaces";
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants";
 import customFetch from "../utils/customFetch";
+import { AxiosError } from "axios";
 
 export const loader: LoaderFunction = async ({ params: { id } }) => {
   try {
     const { data } = await customFetch(`/jobs/${id}`);
     return data;
   } catch (error) {
-    toast.error((error as any)?.response?.data?.message);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    else toast.error("Something went wrong");
     return redirect("../all-jobs");
   }
 };
@@ -32,7 +34,8 @@ export const action: ActionFunction = async ({ request, params: { id } }) => {
     toast.success("Job edited successfully");
     return redirect("../all-jobs");
   } catch (error) {
-    toast.error((error as any)?.response?.data?.message);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    else toast.error("Something went wrong");
     return error;
   }
 };

@@ -1,17 +1,19 @@
 interface FormRowProps {
   name: string;
-  type: "text" | "email" | "number" | "password";
+  type?: "text" | "email" | "number" | "password" | "file";
   label?: string;
   required?: boolean;
   defaultValue?: string | number;
+  accept?: string;
 }
 
 const FormRow: React.FC<FormRowProps> = ({
   name,
-  type,
+  type = "text",
   label,
   required = true,
   defaultValue = "",
+  accept,
 }) => {
   return (
     <div className="form-row">
@@ -25,6 +27,7 @@ const FormRow: React.FC<FormRowProps> = ({
         className="form-input"
         required={required}
         defaultValue={defaultValue}
+        accept={accept}
       />
     </div>
   );

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { FormRow, Logo } from "../components";
 import customFetch from "../utils/customFetch";
+import { AxiosError } from "axios";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -19,7 +20,8 @@ export const action: ActionFunction = async ({ request }) => {
     toast.success("Logged in Successfully");
     return redirect("/dashboard");
   } catch (error) {
-    toast.error((error as any).response.data.message);
+    if (error instanceof AxiosError) toast.error(error.response?.data.message);
+    else toast.error("Something went wrong");
     return error;
   }
 };
