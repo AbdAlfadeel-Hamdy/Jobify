@@ -31,7 +31,7 @@ const Login: React.FC = () => {
   const loginTestUser = async () => {
     const data = {
       email: "testuser@test.com",
-      password: "testuser",
+      password: "secret123",
     };
     try {
       await customFetch.post("/auth/login", data);

@@ -34,6 +34,7 @@ const Profile: React.FC = () => {
             name="avatar"
             label="select an image file (Max 0.5 MB):"
             accept="image/*"
+            required={false}
           />
           <FormRow name="name" defaultValue={user.name} />
           <FormRow
