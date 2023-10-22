@@ -10,10 +10,8 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
 
   const file = formData.get("avatar");
-  if (file && file instanceof File && file.size > 500000) {
+  if (file && file instanceof File && file.size > 500000)
     return toast.error("Image size is too large");
-  }
-
   try {
     await customFetch.patch("/users/update-user", formData);
     toast.success("Profile updated successfully");

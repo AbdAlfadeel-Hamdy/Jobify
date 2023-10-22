@@ -8,7 +8,6 @@ interface NavLinksProps {
 
 const NavLinks: React.FC<NavLinksProps> = ({ isBigSidebar }) => {
   const { toggleSidebar, user } = useDashboardContext();
-
   return (
     <div className="nav-links">
       {links.map(({ text, path, icon }) => {

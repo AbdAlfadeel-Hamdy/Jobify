@@ -1,4 +1,10 @@
-import { ActionFunction, Form, Link, redirect } from "react-router-dom";
+import {
+  ActionFunction,
+  Form,
+  Link,
+  redirect,
+  useNavigate,
+} from "react-router-dom";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { FormRow, Logo, SubmitButton } from "../components";
@@ -21,6 +27,22 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const loginTestUser = async () => {
+    const data = {
+      email: "testuser@test.com",
+      password: "testuser",
+    };
+    try {
+      await customFetch.post("/auth/login", data);
+      toast.success("Take a test drive");
+      navigate("/dashboard");
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message);
+      else toast.error("Something went wrong");
+    }
+  };
   return (
     <Wrapper>
       <Form method="POST" className="form">
@@ -29,7 +51,7 @@ const Login: React.FC = () => {
         <FormRow type="email" name="email" defaultValue="admin@admin.com" />
         <FormRow type="password" name="password" defaultValue="test1234" />
         <SubmitButton formBtn />
-        <button type="button" className="btn btn-block">
+        <button type="button" className="btn btn-block" onClick={loginTestUser}>
           explore the app
         </button>
         <p>
