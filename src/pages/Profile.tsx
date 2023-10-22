@@ -1,7 +1,7 @@
-import { ActionFunction, Form, useNavigation } from "react-router-dom";
+import { ActionFunction, Form } from "react-router-dom";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
-import { FormRow } from "../components";
+import { FormRow, SubmitButton } from "../components";
 import { useDashboardContext } from "../context/dashboard";
 import customFetch from "../utils/customFetch";
 import { AxiosError } from "axios";
@@ -26,8 +26,6 @@ export const action: ActionFunction = async ({ request }) => {
 
 const Profile: React.FC = () => {
   const { user } = useDashboardContext();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <Form method="POST" className="form" encType="multipart/form-data">
@@ -47,13 +45,7 @@ const Profile: React.FC = () => {
           />
           <FormRow type="email" name="email" defaultValue={user.email} />
           <FormRow name="location" defaultValue={user.location} />
-          <button
-            className="btn btn-block form-btn"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Saving..." : "Save changes"}
-          </button>
+          <SubmitButton text="Save changes" loadingText="Saving..." formBtn />
         </div>
       </Form>
     </Wrapper>

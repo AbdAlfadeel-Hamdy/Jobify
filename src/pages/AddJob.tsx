@@ -1,13 +1,8 @@
-import {
-  ActionFunction,
-  Form,
-  redirect,
-  useNavigation,
-} from "react-router-dom";
+import { ActionFunction, Form, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useDashboardContext } from "../context/dashboard";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
-import { FormRow, FormRowSelect } from "../components";
+import { FormRow, FormRowSelect, SubmitButton } from "../components";
 import { JOB_STATUS, JOB_TYPE } from "../utils/constants";
 import customFetch from "../utils/customFetch";
 import { AxiosError } from "axios";
@@ -22,14 +17,12 @@ export const action: ActionFunction = async ({ request }) => {
   } catch (error) {
     if (error instanceof AxiosError) toast.error(error.response?.data.message);
     else toast.error("Something went wrong");
-        return error;
+    return error;
   }
 };
 
 const AddJob: React.FC = () => {
   const { user } = useDashboardContext();
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <Form method="POST" className="form">
@@ -55,9 +48,7 @@ const AddJob: React.FC = () => {
             list={Object.values(JOB_TYPE)}
             defaultValue={JOB_TYPE.FULL_TIME}
           />
-          <button className="btn btn-block form-btn" disabled={isSubmitting}>
-            {isSubmitting ? "submitting..." : "submit"}
-          </button>
+          <SubmitButton formBtn />
         </div>
       </Form>
     </Wrapper>

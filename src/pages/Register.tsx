@@ -1,15 +1,9 @@
-import {
-  ActionFunction,
-  Form,
-  Link,
-  redirect,
-  useNavigation,
-} from "react-router-dom";
+import { ActionFunction, Form, Link, redirect } from "react-router-dom";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import customFetch from "../utils/customFetch";
 import { AxiosError } from "axios";
-import { Logo, FormRow } from "../components";
+import { Logo, FormRow, SubmitButton } from "../components";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -26,8 +20,6 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 const Register: React.FC = () => {
-  const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
   return (
     <Wrapper>
       <Form method="POST" className="form">
@@ -43,9 +35,7 @@ const Register: React.FC = () => {
         <FormRow type="text" name="location" defaultValue="egypt" />
         <FormRow type="email" name="email" defaultValue="test@test.com" />
         <FormRow type="password" name="password" defaultValue="test1234" />
-        <button type="submit" className="btn btn-block" disabled={isSubmitting}>
-          {isSubmitting ? "submitting..." : "submit"}
-        </button>
+        <SubmitButton />
         <p>
           Already a member?
           <Link to="/login" className="member-btn">
