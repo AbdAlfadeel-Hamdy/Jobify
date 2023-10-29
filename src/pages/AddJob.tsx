@@ -28,10 +28,9 @@ const AddJob: React.FC = () => {
       <Form method="POST" className="form">
         <h4 className="form-title">Add Job</h4>
         <div className="form-center">
-          <FormRow type="text" name="position" />
-          <FormRow type="text" name="company" />
+          <FormRow name="position" />
+          <FormRow name="company" />
           <FormRow
-            type="text"
             name="jobLocation"
             label="job location"
             defaultValue={user.location}

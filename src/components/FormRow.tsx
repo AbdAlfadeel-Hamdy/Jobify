@@ -1,9 +1,12 @@
+import { HTMLInputTypeAttribute, ChangeEventHandler } from "react";
+
 interface FormRowProps {
   name: string;
-  type?: "text" | "email" | "number" | "password" | "file";
+  type?: HTMLInputTypeAttribute;
   label?: string;
   required?: boolean;
   defaultValue?: string | number;
+  onChange?: ChangeEventHandler;
   accept?: string;
 }
 
@@ -14,6 +17,7 @@ const FormRow: React.FC<FormRowProps> = ({
   required = true,
   defaultValue = "",
   accept,
+  onChange,
 }) => {
   return (
     <div className="form-row">
@@ -27,6 +31,7 @@ const FormRow: React.FC<FormRowProps> = ({
         className="form-input"
         required={required}
         defaultValue={defaultValue}
+        onChange={onChange}
         accept={accept}
       />
     </div>

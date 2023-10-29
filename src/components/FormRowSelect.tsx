@@ -1,8 +1,11 @@
+import { ChangeEventHandler } from "react";
+
 interface FormRowSelectProps {
   name: string;
   label?: string;
   list: string[];
   defaultValue?: string;
+  onChange?: ChangeEventHandler;
 }
 
 const FormRowSelect: React.FC<FormRowSelectProps> = ({
@@ -10,6 +13,7 @@ const FormRowSelect: React.FC<FormRowSelectProps> = ({
   label,
   list,
   defaultValue = "",
+  onChange,
 }) => {
   return (
     <div className="form-row">
@@ -21,6 +25,7 @@ const FormRowSelect: React.FC<FormRowSelectProps> = ({
         id={name}
         defaultValue={defaultValue}
         className="form-select"
+        onChange={onChange}
       >
         {list.map((itemValue) => (
           <option key={itemValue} value={itemValue}>
