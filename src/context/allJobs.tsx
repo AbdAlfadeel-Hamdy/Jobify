@@ -37,13 +37,21 @@ interface Params {
 }
 
 interface AllJobsContextProps {
-  data: { jobs: Job[] };
+  data: {
+    jobs: Job[];
+    totalJobs: number;
+    numOfPages: number;
+    currentPage: number;
+  };
   searchValues: Params;
 }
 
 const AllJobsContext = createContext<AllJobsContextProps>({
   data: {
     jobs: [],
+    totalJobs: 1,
+    numOfPages: 1,
+    currentPage: 1,
   },
   searchValues: {
     search: "",
@@ -56,10 +64,7 @@ const AllJobsContext = createContext<AllJobsContextProps>({
 const AllJobsContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { data, searchValues } = useLoaderData() as {
-    data: { jobs: Job[] };
-    searchValues: Params;
-  };
+  const { data, searchValues } = useLoaderData() as AllJobsContextProps;
 
   return (
     <AllJobsContext.Provider value={{ data, searchValues }}>
