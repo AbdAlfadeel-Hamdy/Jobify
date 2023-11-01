@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5100/api",
+        // target: "http://localhost:5100/api",
+        target: "https://jobify-server-8qm8.onrender.com/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
