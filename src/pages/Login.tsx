@@ -48,8 +48,8 @@ const Login: React.FC = () => {
       <Form method="POST" className="form">
         <Logo />
         <h4>login</h4>
-        <FormRow type="email" name="email" defaultValue="admin@admin.com" />
-        <FormRow type="password" name="password" defaultValue="test1234" />
+        <FormRow type="email" name="email" />
+        <FormRow type="password" name="password" />
         <SubmitButton formBtn />
         <button type="button" className="btn btn-block" onClick={loginTestUser}>
           explore the app

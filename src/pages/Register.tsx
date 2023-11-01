@@ -25,16 +25,11 @@ const Register: React.FC = () => {
       <Form method="POST" className="form">
         <Logo />
         <h4>Register</h4>
-        <FormRow type="text" name="name" defaultValue="gonzalo" />
-        <FormRow
-          type="text"
-          label="last name"
-          name="lastName"
-          defaultValue="hamdy"
-        />
-        <FormRow type="text" name="location" defaultValue="egypt" />
-        <FormRow type="email" name="email" defaultValue="test@test.com" />
-        <FormRow type="password" name="password" defaultValue="test1234" />
+        <FormRow type="text" name="name" />
+        <FormRow type="text" label="last name" name="lastName" />
+        <FormRow type="text" name="location" />
+        <FormRow type="email" name="email" />
+        <FormRow type="password" name="password" />
         <SubmitButton />
         <p>
           Already a member?
