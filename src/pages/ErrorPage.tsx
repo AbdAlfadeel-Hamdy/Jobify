@@ -4,7 +4,6 @@ import img from "../assets/images/not-found.svg";
 
 const ErrorPage: React.FC = () => {
   const error = useRouteError();
-  console.log(error);
   // @ts-expect-error "as error of type unknown"
   if (error.status === 404)
     return (

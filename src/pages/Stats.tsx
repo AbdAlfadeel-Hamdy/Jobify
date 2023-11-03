@@ -1,5 +1,4 @@
-import { LoaderFunction, redirect, useLoaderData } from "react-router";
-import { toast } from "react-toastify";
+import { LoaderFunction, useLoaderData } from "react-router";
 import {
   ChartsContainer,
   MonthlyApplications,
@@ -10,11 +9,10 @@ import customFetch from "../utils/customFetch";
 
 export const loader: LoaderFunction = async () => {
   try {
-    const { data } = await customFetch.get("/jobs/stats");
+    const { data } = await customFetch.get("/jos/stats");
     return data;
   } catch (error) {
-    toast.error("Something went wrong");
-    return redirect("/");
+    return error;
   }
 };
 
