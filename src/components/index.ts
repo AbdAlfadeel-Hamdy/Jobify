@@ -11,3 +11,4 @@ export {
   default as ChartsContainer,
   type MonthlyApplications,
 } from "./ChartsContainer";
+export { default as Loading } from "./Loading";

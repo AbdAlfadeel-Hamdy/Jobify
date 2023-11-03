@@ -4,7 +4,6 @@ import main from "../assets/images/main.svg";
 import { Logo } from "../components";
 
 const Landing: React.FC = () => {
-  console.log(import.meta.env.PROD);
   return (
     <Wrapper>
       <nav>

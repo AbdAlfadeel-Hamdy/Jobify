@@ -1,9 +1,11 @@
 import styled from "styled-components";
-import { Outlet } from "react-router";
-import { BigSidebar, Navbar, SmallSidebar } from "../components";
+import { Outlet, useNavigation } from "react-router";
+import { BigSidebar, Loading, Navbar, SmallSidebar } from "../components";
 import { DashboardContextProvider } from "../context/dashboard";
 
 const DashboardLayout: React.FC = () => {
+  const navigation = useNavigation();
+  const isPageLoading = navigation.state === "loading";
   return (
     <DashboardContextProvider>
       <Wrapper>
@@ -13,7 +15,7 @@ const DashboardLayout: React.FC = () => {
           <div>
             <Navbar />
             <div className="dashboard-page">
-              <Outlet />
+              {isPageLoading ? <Loading /> : <Outlet />}
             </div>
           </div>
         </main>
