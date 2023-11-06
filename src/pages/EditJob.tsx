@@ -5,6 +5,7 @@ import {
   redirect,
   useLoaderData,
 } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { FormRow, FormRowSelect, SubmitButton } from "../components";
@@ -24,20 +25,24 @@ export const loader: LoaderFunction = async ({ params: { id } }) => {
   }
 };
 
-export const action: ActionFunction = async ({ request, params: { id } }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (queryClient: QueryClient): ActionFunction =>
+  async ({ request, params: { id } }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-  try {
-    await customFetch.patch(`/jobs/${id}`, data);
-    toast.success("Job edited successfully");
-    return redirect("../all-jobs");
-  } catch (error) {
-    if (error instanceof AxiosError) toast.error(error.response?.data.message);
-    else toast.error("Something went wrong");
-    return error;
-  }
-};
+    try {
+      await customFetch.patch(`/jobs/${id}`, data);
+      queryClient.invalidateQueries(["jobs"]);
+      toast.success("Job edited successfully");
+      return redirect("../all-jobs");
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message);
+      else toast.error("Something went wrong");
+      return error;
+    }
+  };
 
 const EditJob: React.FC = () => {
   const { job } = useLoaderData() as { job: Job };

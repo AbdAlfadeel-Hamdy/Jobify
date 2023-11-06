@@ -1,4 +1,4 @@
-import AllJobsContextProvider from "../context/allJobs";
+import AllJobsContextProvider from "../context/AllJobsContextProvider";
 import JobsContainer from "../components/JobsContainer";
 import SearchContainer from "../components/SearchContainer";
 

@@ -1,26 +1,32 @@
-import { ActionFunction, Form } from "react-router-dom";
+import { ActionFunction, Form, redirect } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/DashboardFormPage";
 import { FormRow, SubmitButton } from "../components";
-import { useDashboardContext } from "../context/dashboard";
+import { useDashboardContext } from "../context/DashboardContextProvider";
 import customFetch from "../utils/customFetch";
 import { AxiosError } from "axios";
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
+export const action =
+  (queryClient: QueryClient): ActionFunction =>
+  async ({ request }) => {
+    const formData = await request.formData();
 
-  const file = formData.get("avatar");
-  if (file && file instanceof File && file.size > 500000)
-    return toast.error("Image size is too large");
-  try {
-    await customFetch.patch("/users/update-user", formData);
-    toast.success("Profile updated successfully");
-  } catch (error) {
-    if (error instanceof AxiosError) toast.error(error.response?.data.message);
-    else toast.error("Something went wrong");
-  }
-  return null;
-};
+    const file = formData.get("avatar");
+    if (file && file instanceof File && file.size > 500000)
+      return toast.error("Image size is too large");
+    try {
+      await customFetch.patch("/users/update-user", formData);
+      queryClient.invalidateQueries(["user"]);
+      toast.success("Profile updated successfully");
+      return redirect("/dashboard");
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message);
+      else toast.error("Something went wrong");
+      return null;
+    }
+  };
 
 const Profile: React.FC = () => {
   const { user } = useDashboardContext();

@@ -1,13 +1,16 @@
+import { QueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { Outlet, useNavigation } from "react-router";
 import { BigSidebar, Loading, Navbar, SmallSidebar } from "../components";
-import { DashboardContextProvider } from "../context/dashboard";
+import { DashboardContextProvider } from "../context/DashboardContextProvider";
 
-const DashboardLayout: React.FC = () => {
+const DashboardLayout: React.FC<{ queryClient: QueryClient }> = ({
+  queryClient,
+}) => {
   const navigation = useNavigation();
   const isPageLoading = navigation.state === "loading";
   return (
-    <DashboardContextProvider>
+    <DashboardContextProvider queryClient={queryClient}>
       <Wrapper>
         <main className="dashboard">
           <SmallSidebar />

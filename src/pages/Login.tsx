@@ -5,26 +5,31 @@ import {
   redirect,
   useNavigate,
 } from "react-router-dom";
+import { QueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { FormRow, Logo, SubmitButton } from "../components";
 import customFetch from "../utils/customFetch";
 import { AxiosError } from "axios";
 
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
+export const action =
+  (queryClient: QueryClient): ActionFunction =>
+  async ({ request }) => {
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
 
-  try {
-    await customFetch.post("/auth/login", data);
-    toast.success("Logged in Successfully");
-    return redirect("/dashboard");
-  } catch (error) {
-    if (error instanceof AxiosError) toast.error(error.response?.data.message);
-    else toast.error("Something went wrong");
-    return error;
-  }
-};
+    try {
+      await customFetch.post("/auth/login", data);
+      queryClient.removeQueries();
+      toast.success("Logged in Successfully");
+      return redirect("/dashboard");
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message);
+      else toast.error("Something went wrong");
+      return error;
+    }
+  };
 
 const Login: React.FC = () => {
   const navigate = useNavigate();

@@ -17,8 +17,8 @@ import {
 } from "./pages";
 
 // React Router Loaders and Actions
-import { loader as dashboardLoader } from "./context/dashboard";
-import { loader as allJobsLoader } from "./context/allJobs";
+import { loader as dashboardLoader } from "./context/DashboardContextProvider";
+import { loader as allJobsLoader } from "./context/AllJobsContextProvider";
 import { action as registerAction } from "./pages/Register";
 import { action as loginAction } from "./pages/Login";
 import { action as addJobAction } from "./pages/AddJob";
@@ -73,30 +73,54 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
-        action: loginAction,
+        // action: loginAction,
+        action: loginAction(queryClient),
       },
       {
         path: "dashboard",
-        element: <DashboardLayout />,
-        loader: dashboardLoader,
+        // element: <DashboardLayout />,
+        element: <DashboardLayout queryClient={queryClient} />,
+        // loader: dashboardLoader,
+        loader: dashboardLoader(queryClient),
         children: [
-          { index: true, element: <AddJob />, action: addJobAction },
+          {
+            index: true,
+            element: <AddJob />,
+            // action: addJobAction
+            action: addJobAction(queryClient),
+          },
           {
             path: "stats",
             element: <Stats />,
-            loader: statsLoader,
+            // loader: statsLoader,
+            loader: statsLoader(queryClient),
             errorElement: <ErrorElement />,
           },
-          { path: "all-jobs", element: <AllJobs />, loader: allJobsLoader },
-          { path: "profile", element: <Profile />, action: profileAction },
+          {
+            path: "all-jobs",
+            element: <AllJobs />,
+            loader: allJobsLoader(queryClient),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+            // action: profileAction,
+            action: profileAction(queryClient),
+          },
           { path: "admin", element: <Admin />, loader: adminLoader },
           {
             path: "edit-job/:id",
             element: <EditJob />,
-            action: editJobAction,
+            // action: editJobAction
+            action: editJobAction(queryClient),
             loader: editJobLoader,
           },
-          { path: "delete-job/:id", action: deleteJobAction },
+          {
+            path: "delete-job/:id",
+            // action: deleteJobAction
+            action: deleteJobAction(queryClient),
+          },
         ],
       },
     ],

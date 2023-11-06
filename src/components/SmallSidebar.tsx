@@ -1,7 +1,7 @@
 // import styled from "styled-components";
 import Wrapper from "../assets/wrappers/SmallSidebar.ts";
 import { FaTimes } from "react-icons/fa";
-import { useDashboardContext } from "../context/dashboard";
+import { useDashboardContext } from "../context/DashboardContextProvider.tsx";
 import Logo from "./Logo";
 import NavLinks from "./NavLinks.tsx";
 

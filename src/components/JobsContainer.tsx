@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useAllJobsContext } from "../context/allJobs";
+import { useAllJobsContext } from "../context/AllJobsContextProvider";
 import Job from "./Job";
 import PageBtnContainer from "./PageBtnContainer";
 

@@ -1,8 +1,15 @@
 import React, { useContext, useState } from "react";
 import {
+  WithRequired,
+  FetchQueryOptions,
+  QueryKey,
+  QueryClient,
+  useQuery,
+} from "@tanstack/react-query";
+import {
   LoaderFunction,
   redirect,
-  useLoaderData,
+  // useLoaderData,
   useNavigate,
 } from "react-router";
 import { toast } from "react-toastify";
@@ -45,26 +52,57 @@ const DashboardContext = React.createContext<DashboardContextProps>({
   toggleDarkTheme: () => {},
 });
 
-export const loader: LoaderFunction = async () => {
-  try {
+/*
+1) Without caching by ReactQuery
+// export const loader: LoaderFunction = async () => {
+//   try {
+//     const { data } = await customFetch("/users/current-user");
+//     return data;
+//   } catch (error) {
+//     return redirect("/");
+//   }
+// };
+*/
+
+// 2) Caching by ReactQuery
+const userQuery: WithRequired<
+  FetchQueryOptions<unknown, unknown, unknown, QueryKey>,
+  "queryKey"
+> = {
+  queryKey: ["user"],
+  queryFn: async () => {
     const { data } = await customFetch("/users/current-user");
     return data;
-  } catch (error) {
-    return redirect("/");
-  }
+  },
 };
+export const loader =
+  (queryClient: QueryClient): LoaderFunction =>
+  async () => {
+    try {
+      return await queryClient.ensureQueryData(userQuery);
+    } catch (error) {
+      return redirect("/");
+    }
+  };
 
 export const DashboardContextProvider: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+  queryClient: QueryClient;
+}> = ({ children, queryClient }) => {
   const navigate = useNavigate();
-  const { user } = useLoaderData() as { user: User };
+  // First Approach
+  // const { user } = useLoaderData() as { user: User };
+  // Second Approach (preferred)
+  const {
+    data: { user },
+  } = useQuery(userQuery) as { data: { user: User } };
   const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
   const [showSidebar, setShowSidebar] = useState(false);
 
   const logoutUser = async () => {
     navigate("/", { replace: true });
     await customFetch("/auth/logout");
+    queryClient.removeQueries();
     toast.success("Logging out...");
   };
 

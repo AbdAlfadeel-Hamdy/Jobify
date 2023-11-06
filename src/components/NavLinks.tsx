@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useDashboardContext } from "../context/dashboard";
+import { useDashboardContext } from "../context/DashboardContextProvider";
 import links from "../utils/links";
 
 interface NavLinksProps {

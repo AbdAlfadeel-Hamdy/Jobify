@@ -1,6 +1,6 @@
 import { HiChevronDoubleLeft, HiChevronDoubleRight } from "react-icons/hi";
 import styled from "styled-components";
-import { useAllJobsContext } from "../context/allJobs";
+import { useAllJobsContext } from "../context/AllJobsContextProvider";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const PageBtnContainer = () => {

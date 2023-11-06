@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import styled from "styled-components";
-import { useDashboardContext } from "../context/dashboard";
+import { useDashboardContext } from "../context/DashboardContextProvider";
 
 const LogoutContainer: React.FC = () => {
   const [showLogout, setShowLogout] = useState(false);
