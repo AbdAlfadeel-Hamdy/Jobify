@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
   WithRequired,
   FetchQueryOptions,
@@ -15,6 +15,7 @@ import {
 import { toast } from "react-toastify";
 import { isDarkThemeEnabled } from "../App";
 import customFetch from "../utils/customFetch";
+import { AxiosError } from "axios";
 
 interface User {
   _id: string;
@@ -98,17 +99,7 @@ export const DashboardContextProvider: React.FC<{
   } = useQuery(userQuery) as { data: { user: User } };
   const [isDarkTheme, setIsDarkTheme] = useState(isDarkThemeEnabled);
   const [showSidebar, setShowSidebar] = useState(false);
-
-  const logoutUser = async () => {
-    navigate("/", { replace: true });
-    await customFetch("/auth/logout");
-    queryClient.removeQueries();
-    toast.success("Logging out...");
-  };
-
-  const toggleSidebar = () => {
-    setShowSidebar((prevState) => !prevState);
-  };
+  const [isAuthError, setIsAuthError] = useState(false);
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
@@ -116,6 +107,30 @@ export const DashboardContextProvider: React.FC<{
     document.body.classList.toggle("dark-theme", newDarkTheme);
     localStorage.setItem("darkTheme", JSON.stringify(newDarkTheme));
   };
+
+  const toggleSidebar = () => {
+    setShowSidebar((prevState) => !prevState);
+  };
+
+  const logoutUser = useCallback(async () => {
+    navigate("/", { replace: true });
+    await customFetch("/auth/logout");
+    queryClient.removeQueries();
+    toast.success("Logging out...");
+  }, [navigate, queryClient]);
+
+  customFetch.interceptors.response.use(
+    (response) => response,
+    (error: AxiosError) => {
+      if (error.response?.status === 401) setIsAuthError(true);
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    if (!isAuthError) return;
+    logoutUser();
+  }, [isAuthError, logoutUser]);
 
   return (
     <DashboardContext.Provider
