@@ -119,6 +119,7 @@ export const DashboardContextProvider: React.FC<{
     toast.success("Logging out...");
   }, [navigate, queryClient]);
 
+  // Axios Interceptors
   customFetch.interceptors.response.use(
     (response) => response,
     (error: AxiosError) => {
